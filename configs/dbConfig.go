@@ -3,8 +3,10 @@ package configs
 import (
 	"log"
 
+	"github.com/Amangoyal1A/studentapi/models"
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
+	"gorm.io/gorm"
 )
 
 type DBConfig struct {
@@ -29,4 +31,16 @@ func loadDBConfig() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+}
+
+func AutoMigrate(DB *gorm.DB) {
+	if DB == nil {
+		log.Fatal("Database connection not initialized. Call LoadDBConfig first.")
+	}
+
+	err := DB.AutoMigrate(&models.Student{})
+	if err != nil {
+		log.Fatalf("Error during migration: %v", err)
+	}
+	log.Println("Database migration completed")
 }
