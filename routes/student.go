@@ -11,6 +11,8 @@ func StudentRoutes(router *gin.Engine, DB *gorm.DB) {
 	studentGroup := router.Group("/students")
 	{
 		// Pass the DB instance to the controller
-		studentGroup.POST("", controllers.CreateStudent(DB))
+		studentGroup.POST("/create", controllers.CreateStudent(DB))
+		studentGroup.GET("/getAll", controllers.ListStudent(DB))
+
 	}
 }

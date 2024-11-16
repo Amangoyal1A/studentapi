@@ -28,3 +28,19 @@ func CreateStudent(DB *gorm.DB) gin.HandlerFunc {
 		c.JSON(http.StatusOK, gin.H{"data": student})
 	}
 }
+
+
+func ListStudent(DB *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var students []models.Student // Use a slice for multiple entries
+
+		result := DB.Find(&students)
+		if result.Error != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"data": students}) // Return the data slice
+	}
+}
+
